@@ -1,0 +1,33 @@
+group = 'de.darmotek'
+version = '0.0.1-SNAPSHOT'
+
+
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+}
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks - Application
+//------------------------------------------------------------------------------------------------------------------------
+
+task bootFullApplication(type: GradleBuild) {
+    group 'application'
+    setTasks([':frontend:npmUpdate', ':frontend:clean', ':frontend:buildClientToSpring', ':backend:bootRun'])
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks - Init project
+//------------------------------------------------------------------------------------------------------------------------
+
+task wrapper(type: Wrapper) {
+    group 'init'
+    gradleVersion '4.2'
+    distributionType Wrapper.DistributionType.ALL
+}

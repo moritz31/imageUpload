@@ -1,0 +1,100 @@
+buildscript {
+    ext {
+        gradleNodeVersion = '1.2.0'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:$gradleNodeVersion"
+    }
+}
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Plugins - Application
+//------------------------------------------------------------------------------------------------------------------------
+
+apply plugin: 'com.moowork.node'
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Plugin configuration
+//------------------------------------------------------------------------------------------------------------------------
+
+node {
+    version = '8.5.0'
+    npmVersion = '5.4.2'
+    download = true
+    workDir = file("${rootDir}/frontend/node")
+    nodeModulesDir = file("${rootDir}/frontend")
+}
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks - NPM
+//------------------------------------------------------------------------------------------------------------------------
+
+task clean(type: Delete) {
+    group 'build frontend'
+    delete "${rootDir}/frontend/dist", "${rootDir}/backend/src/main/resources/static"
+}
+
+task cleanNpm(type: Delete) {
+    group 'build frontend'
+    dependsOn 'clean'
+    delete "${rootDir}/frontend/node", "${rootDir}/frontend/node_modules"
+}
+
+task npmUpdate {
+    group 'build frontend'
+    dependsOn 'npm_update'
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks - Standalone frontend
+//------------------------------------------------------------------------------------------------------------------------
+
+task buildStandaloneClient(type: NpmTask, dependsOn: npmInstall) {
+    group 'build frontend'
+    description = 'Compile frontend side folder for development'
+    args = ['run', 'buildStandalone']
+}
+
+task serveStandaloneClientWatch(type: NpmTask, dependsOn: npmInstall) {
+    group 'build frontend'
+    description = "Builds, serves and watches the frontend side assets for rebuilding"
+    args = ['run', 'serveStandaloneWatch']
+}
+
+task serveStandaloneClient(type: NpmTask, dependsOn: npmInstall) {
+    group 'build frontend'
+    description = "Compile frontend side folder for production"
+    args = ['start']
+}
+
+task bootStandaloneClient(type: GradleBuild) {
+    group 'application'
+    setTasks(['clean', 'buildStandaloneClient', 'serveStandaloneClient'])
+//    finalizedBy 'npm_shutdown'
+}
+
+task bootStandaloneClientWatch(type: GradleBuild) {
+    group 'application'
+    setTasks(['clean', 'serveStandaloneClientWatch'])
+//    finalizedBy 'npm_shutdown'
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+//    Tasks - Integrated frontend
+//------------------------------------------------------------------------------------------------------------------------
+
+task buildClientToSpring(type: NpmTask, dependsOn: npmInstall) {
+    group 'build frontend'
+    description = 'Compile frontend side folder for development'
+    args = ['run', 'buildToSpring']
+}
