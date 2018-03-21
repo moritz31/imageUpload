@@ -1,12 +1,12 @@
-package com.shekhargulati.myapp;
+package de.darmotek.imageUpload;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyappApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MyappApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 }

@@ -1,4 +1,4 @@
-package com.shekhargulati.myapp;
+package de.darmotek.imageUpload;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MyappApplicationTests {
+public class AppTests {
 
 	@Test
 	public void contextLoads() {
