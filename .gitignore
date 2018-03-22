@@ -46,3 +46,10 @@ dist/
 
 # Application
 backend/src/main/resources/static
+
+
+.project
+.settings/
+*/.classpath
+*/.project
+*/.settings/
