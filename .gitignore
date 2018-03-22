@@ -53,3 +53,4 @@ backend/src/main/resources/static
 */.classpath
 */.project
 */.settings/
+.vscode/
