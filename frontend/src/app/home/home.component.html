@@ -1,8 +1,8 @@
-<form method="POST" action="uploadFile" enctype="multipart/form-data">
-  File to upload: <input type="file" name="file">
-
-  Name: <input type="text" name="name">
-
-
-  <input type="submit" value="Upload"> Press here to upload the file!
-</form>
+<h1>Greeting</h1>
+<div [hidden]="!authenticated()">
+	<p>The ID is {{greeting.id}}</p>
+	<p>The content is {{greeting.content}}</p>
+</div>
+<div [hidden]="authenticated()">
+	<p>Login to see your greeting</p>
+</div>
