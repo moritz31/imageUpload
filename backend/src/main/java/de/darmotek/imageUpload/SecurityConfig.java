@@ -15,16 +15,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .formLogin()
-                    .defaultSuccessUrl("/index.html",true)
+                    .httpBasic()
                     .and()
                     .authorizeRequests()
                     .antMatchers("/index.html", "/", "/home", "/login").permitAll()
                     .anyRequest().authenticated()
-                    .and()
-                    .logout()
-                    .and()
-                    .csrf().disable();
+            .and().csrf()
+            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         }
 
 
