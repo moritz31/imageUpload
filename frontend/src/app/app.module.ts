@@ -13,6 +13,10 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { ListUploadComponent } from './upload/list-upload/list-upload.component';
+import { DetailsUploadComponent } from './upload/details-upload/details-upload.component';
+import { FormUploadComponent } from './upload/form-upload/form-upload.component';
+import {UploadFileService} from './upload/upload-file.service';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -28,14 +32,18 @@ export class XhrInterceptor implements HttpInterceptor {
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home'},
   { path: 'home', component: HomeComponent},
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'upload', component: FormUploadComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ListUploadComponent,
+    DetailsUploadComponent,
+    FormUploadComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -43,7 +51,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule
   ],
-  providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [UploadFileService,AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

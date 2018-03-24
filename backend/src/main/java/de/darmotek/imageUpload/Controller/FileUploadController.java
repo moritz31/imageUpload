@@ -14,7 +14,7 @@ public class FileUploadController {
 
     private static final Logger logger = Logger.getLogger(FileUploadController.class.getName());
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
     public @ResponseBody
     String uploadFileHandler(@RequestParam("name") String name,
                              @RequestParam("file")MultipartFile file) {
