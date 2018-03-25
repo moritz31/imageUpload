@@ -17,6 +17,7 @@ import { ListUploadComponent } from './upload/list-upload/list-upload.component'
 import { DetailsUploadComponent } from './upload/details-upload/details-upload.component';
 import { FormUploadComponent } from './upload/form-upload/form-upload.component';
 import {UploadFileService} from './upload/upload-file.service';
+import {LightboxModule} from 'angular2-lightbox';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -49,7 +50,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+LightboxModule
   ],
   providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },UploadFileService],
   bootstrap: [AppComponent]

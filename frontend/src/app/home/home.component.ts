@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import { UploadFileService } from '../upload/upload-file.service';
+import { Lightbox, LightboxConfig, LightboxEvent, LIGHTBOX_EVENT, IEvent, IAlbum } from 'angular2-lightbox';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-home',
@@ -12,23 +14,31 @@ import { UploadFileService } from '../upload/upload-file.service';
 })
 export class HomeComponent implements OnInit {
 
-  showFile = false
-  fileUploads: Observable<string[]>
-  image:string;
+  private _albums: Array<IAlbum> = [];
 
-  constructor(private app: AppService, private http: HttpClient, private uploadService: UploadFileService) {
-    this.fileUploads = this.uploadService.getFiles();
+  constructor(private app: AppService, private http: HttpClient,
+   private uploadService: UploadFileService, private _lightbox: Lightbox) {
+    this.uploadService.getFiles().subscribe((images: string[]) => {
+
+        for(let image of images) {
+          const album = {
+            src: image,
+            caption: null,
+            thumb: null
+          };
+          console.log(album);
+          this._albums.push(album);
+        }
+    });
   }
 
   authenticated() { return this.app.authenticated; }
 
-  showFiles(enable: boolean) {
-    this.showFile = enable
-
-    if (enable) {
-      this.fileUploads = this.uploadService.getFiles();
-    }
+  open(index: number) {
+    console.log("Hallo ", index);
+    this._lightbox.open(this._albums, index);
   }
+
 
   ngOnInit() {
 
