@@ -63,7 +63,7 @@ public class StorageService {
         File[] listOfFiles = folder.listFiles();
         List<String> fileListByName = new ArrayList<>();
         for (File file : listOfFiles) {
-            fileListByName.add(file.getName());
+            fileListByName.add("/api/files/"+file.getName());
         }
 
         return fileListByName;

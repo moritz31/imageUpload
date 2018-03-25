@@ -22,7 +22,7 @@ public class FileController {
     @Autowired
     StorageService storageService;
 
-    @PostMapping(value = "/post")
+    @PostMapping(value = "/api/post")
     public ResponseEntity<String> uploadFileHandler(@RequestParam("name") String name,
                              @RequestParam("file")MultipartFile file) {
 
@@ -38,14 +38,14 @@ public class FileController {
 
     }
 
-    @GetMapping("/get")
+    @GetMapping("/api/get")
     public ResponseEntity<List<String>> getListFiles(Model model) {
         List<String> fileList = storageService.getCurrentFiles();
 
         return ResponseEntity.ok().body(fileList);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/api/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.loadFile(filename);
         return ResponseEntity.ok()

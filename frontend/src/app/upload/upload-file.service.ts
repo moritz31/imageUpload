@@ -13,7 +13,7 @@ constructor(private http: HttpClient) {}
     formdata.append('file', file);
     formdata.append('name',file.name);
 
-    const req = new HttpRequest('POST', '/post', formdata, {
+    const req = new HttpRequest('POST', '/api/post', formdata, {
       reportProgress: true,
       responseType: 'text'
     });
@@ -22,6 +22,6 @@ constructor(private http: HttpClient) {}
   }
 
   getFiles(): Observable<string[]> {
-    return this.http.get<string[]>('/getallfiles')
+    return this.http.get<string[]>('/api/get')
   }
 }
