@@ -4,12 +4,12 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 @Injectable()
 export class AppService {
 
-  authenticated = false;
+    authenticated = false;
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  authenticate(credentials, callback) {
+    authenticate(credentials, callback) {
 
         const headers = new HttpHeaders(credentials ? {
             authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
@@ -22,8 +22,12 @@ export class AppService {
                 this.authenticated = false;
             }
             return callback && callback();
-        });
+        }, error => {this.authenticated = false;});
 
+    }
+
+    isAuthenticated(): boolean {
+        return this.authenticated;
     }
 
 }

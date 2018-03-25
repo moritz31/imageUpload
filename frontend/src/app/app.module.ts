@@ -18,6 +18,7 @@ import { DetailsUploadComponent } from './upload/details-upload/details-upload.c
 import { FormUploadComponent } from './upload/form-upload/form-upload.component';
 import {UploadFileService} from './upload/upload-file.service';
 import {LightboxModule} from 'angular2-lightbox';
+import {AuthGuardService as AuthGuard, AuthGuardService} from './login/auth/auth-guard.service';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -32,9 +33,9 @@ export class XhrInterceptor implements HttpInterceptor {
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home'},
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
-  { path: 'upload', component: FormUploadComponent}
+  { path: 'upload', component: FormUploadComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
@@ -53,7 +54,7 @@ const routes: Routes = [
     FormsModule,
 LightboxModule
   ],
-  providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },UploadFileService],
+  providers: [AppService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },UploadFileService,AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
