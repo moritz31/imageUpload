@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -22,6 +25,7 @@ public class StorageService {
         try {
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("FAIL!");
         }
     }
@@ -52,6 +56,17 @@ public class StorageService {
         } catch(IOException e) {
             throw new RuntimeException("Could not initialize storage!");
         }
+    }
+
+    public List<String> getCurrentFiles() {
+        File folder = new File(this.rootLocation.toUri());
+        File[] listOfFiles = folder.listFiles();
+        List<String> fileListByName = new ArrayList<>();
+        for (File file : listOfFiles) {
+            fileListByName.add(file.getName());
+        }
+
+        return fileListByName;
     }
 
 }

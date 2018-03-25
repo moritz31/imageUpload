@@ -1,28 +1,28 @@
 package de.darmotek.imageUpload.Controller;
 
 import de.darmotek.imageUpload.Service.StorageService;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @RestController
-public class FileUploadController {
+public class FileController {
 
-    private static final Logger logger = Logger.getLogger(FileUploadController.class.getName());
+    private static final Logger logger = Logger.getLogger(FileController.class.getName());
 
     @Autowired
     StorageService storageService;
 
-    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    @PostMapping(value = "/post")
     public ResponseEntity<String> uploadFileHandler(@RequestParam("name") String name,
                              @RequestParam("file")MultipartFile file) {
 
@@ -31,10 +31,25 @@ public class FileUploadController {
             logger.log(Level.INFO,"Sucessfully uploaded " + file.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body("OK");
         } catch (Exception e) {
+            e.printStackTrace();
             logger.log(Level.WARNING,"Failed uploading " + file.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("FAILED");
         }
 
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<List<String>> getListFiles(Model model) {
+        List<String> fileList = storageService.getCurrentFiles();
+
+        return ResponseEntity.ok().body(fileList);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        Resource file = storageService.loadFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
 }
