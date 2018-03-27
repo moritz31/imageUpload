@@ -1,5 +1,7 @@
 package de.darmotek.imageUpload.Controller;
 
+import de.darmotek.imageUpload.Model.FileDescriptor;
+import de.darmotek.imageUpload.Repository.FileDescriptorRepository;
 import de.darmotek.imageUpload.Service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +25,16 @@ public class FileController {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    FileDescriptorRepository fileDescriptorRepository;
+
     @PostMapping(value = "/api/post")
     public ResponseEntity<String> uploadFileHandler(@RequestParam("name") String name,
                              @RequestParam("file")MultipartFile file) {
 
         try {
             storageService.store(file);
+            fileDescriptorRepository.save(new FileDescriptor("/api/files/" + file.getOriginalFilename()));
             logger.log(Level.INFO,"Sucessfully uploaded " + file.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body("OK");
         } catch (Exception e) {
@@ -39,10 +46,18 @@ public class FileController {
     }
 
     @GetMapping("/api/get")
-    public ResponseEntity<List<String>> getListFiles(Model model) {
+    public ResponseEntity<List<FileDescriptor>> getListFiles(Model model) {
         List<String> fileList = storageService.getCurrentFiles();
 
-        return ResponseEntity.ok().body(fileList);
+        List<FileDescriptor> allDescriptors = new ArrayList<>();
+
+
+        for (String fileName : fileList) {
+            System.out.println(fileName);
+            allDescriptors.add(fileDescriptorRepository.findByPath(fileName));
+        }
+
+        return ResponseEntity.ok().body(allDescriptors);
     }
 
     @GetMapping("/api/files/{filename:.+}")

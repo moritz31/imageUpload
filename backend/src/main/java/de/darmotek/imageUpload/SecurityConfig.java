@@ -12,13 +12,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .httpBasic()
                     .and()
-                    .authorizeRequests().antMatchers("/console/**").permitAll()
+                    .authorizeRequests().anyRequest().fullyAuthenticated()
                     .and()
-                    .authorizeRequests()
-                    .antMatchers("/index.html", "/", "/home", "/login", "/upload", "/post").permitAll()
-                    .anyRequest().authenticated()
-            .and().csrf()
-                    .disable()
+                    .csrf().disable()
                     .headers().frameOptions().disable();
         }
 

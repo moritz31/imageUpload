@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FileDescriptorRepository extends CrudRepository<FileDescriptor, Long> {
 
-    public FileDescriptor findByPath(String path);
+    FileDescriptor findByPath(String path);
 
 }

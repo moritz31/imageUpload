@@ -52,9 +52,12 @@ public class StorageService {
 
     public void init() {
         try {
-            Files.createDirectory(this.rootLocation);
+            if (!Files.exists(this.rootLocation)) {
+                Files.createDirectory(this.rootLocation);
+            }
+
         } catch(IOException e) {
-            throw new RuntimeException("Could not initialize storage!");
+            throw new RuntimeException("Failed to init storage");
         }
     }
 
@@ -62,8 +65,11 @@ public class StorageService {
         File folder = new File(this.rootLocation.toUri());
         File[] listOfFiles = folder.listFiles();
         List<String> fileListByName = new ArrayList<>();
-        for (File file : listOfFiles) {
-            fileListByName.add("/api/files/"+file.getName());
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                fileListByName.add("/api/files/" + file.getName());
+            }
         }
 
         return fileListByName;
