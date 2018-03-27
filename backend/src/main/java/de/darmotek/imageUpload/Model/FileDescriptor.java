@@ -1,18 +1,20 @@
 package de.darmotek.imageUpload.Model;
 
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
-@Entity
+@Document
 public class FileDescriptor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String path;
-    //private List<String> tags;
+    private List<String> tags;
 
     public FileDescriptor() {
     }
