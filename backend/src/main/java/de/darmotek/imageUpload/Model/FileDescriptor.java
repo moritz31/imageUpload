@@ -1,50 +1,37 @@
 package de.darmotek.imageUpload.Model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
 public class FileDescriptor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String path;
-    private List<String> tags;
+    public String id;
+    public String path;
+    public List<String> tags;
 
     public FileDescriptor() {
+        this.tags = new ArrayList<>();
     }
 
     public FileDescriptor(String path) {
         this.path = path;
+        this.tags = new ArrayList<>();
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     @Override
     public String toString() {
         return "FileDescriptor{" +
                 "id=" + this.id +
-                ", path'" + this.path + '\''
-                + '}';
+                ", path=" + this.path +
+                ", tags=" + this.tags +
+                '}';
     }
 
 }
