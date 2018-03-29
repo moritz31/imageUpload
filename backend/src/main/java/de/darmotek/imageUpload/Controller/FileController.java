@@ -23,14 +23,14 @@ public class FileController {
     private static final Logger logger = Logger.getLogger(FileController.class.getName());
 
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     @Autowired
-    FileDescriptorRepository fileDescriptorRepository;
+    private FileDescriptorRepository fileDescriptorRepository;
 
     @PostMapping(value = "/api/post")
-    public ResponseEntity<String> uploadFileHandler(@RequestParam("name") String name,
-                             @RequestParam("file")MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("name") String name,
+                                             @RequestParam("file") MultipartFile file) {
 
         try {
             storageService.store(file);
@@ -46,14 +46,13 @@ public class FileController {
     }
 
     @GetMapping("/api/get")
-    public ResponseEntity<List<FileDescriptor>> getListFiles(Model model) {
-        List<String> fileList = storageService.getCurrentFiles();
+    public ResponseEntity<List<FileDescriptor>> getAllFiles(Model model) {
+        List<String> allFiles = storageService.getCurrentFiles();
 
         List<FileDescriptor> allDescriptors = new ArrayList<>();
 
 
-        for (String fileName : fileList) {
-            System.out.println(fileName);
+        for (String fileName : allFiles) {
             allDescriptors.add(fileDescriptorRepository.findByPath(fileName));
         }
 
@@ -63,6 +62,9 @@ public class FileController {
     @GetMapping("/api/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.loadFile(filename);
+        if (file == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);

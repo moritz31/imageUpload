@@ -1,4 +1,4 @@
-package de.darmotek.imageUpload;
+package de.darmotek.imageUpload.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +12,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .httpBasic()
                     .and()
-                    .authorizeRequests().anyRequest().fullyAuthenticated()
+                    .authorizeRequests().antMatchers("/api/**").authenticated()
                     .and()
-                    .csrf().disable()
-                    .headers().frameOptions().disable();
+                    .csrf().disable();
         }
 
 

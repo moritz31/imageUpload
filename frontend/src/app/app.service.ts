@@ -16,9 +16,12 @@ export class AppService {
         } : {});
 
         this.http.get('api/user', {headers: headers}).subscribe(response => {
+            console.log(response);
             if (response['name']) {
+                console.log("Authenticated");
                 this.authenticated = true;
             } else {
+                console.log("Logged Out");
                 this.authenticated = false;
             }
             return callback && callback();
@@ -27,6 +30,7 @@ export class AppService {
     }
 
     isAuthenticated(): boolean {
+        console.log(this.authenticated);
         return this.authenticated;
     }
 
