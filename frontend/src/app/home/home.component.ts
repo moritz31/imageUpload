@@ -18,11 +18,11 @@ export class HomeComponent implements OnInit {
 
   constructor(private app: AppService, private http: HttpClient,
    private uploadService: UploadFileService, private _lightbox: Lightbox) {
-    this.uploadService.getFiles().subscribe((images: string[]) => {
-
+    this.uploadService.getFiles().subscribe((images: Object) => {
+        console.log(images);
         for(let image of images) {
           const album = {
-            src: image,
+            src: image.path,
             caption: null,
             thumb: null
           };
