@@ -1,4 +1,4 @@
-package de.darmotek.imageUpload;
+package de.darmotek.imageUpload.config;
 
 import com.mongodb.MongoClient;
 import cz.jirutka.spring.embedmongo.EmbeddedMongoFactoryBean;
