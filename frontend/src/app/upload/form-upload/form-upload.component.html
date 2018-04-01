@@ -2,7 +2,7 @@
   <input type="file" (change)="selectFile($event)" multiple/>
 </label></p>
 
-<p><input type="text" (keydown)="inputTag($event)"></p>
+<p><input type="text" (keyup)="inputTag($event)"></p>
 
 <p>
   <button class="btn btn-success" [disabled]="!selectedFiles"
