@@ -30,6 +30,5 @@ public class App implements CommandLineRunner{
 
         User user = new User("user", new BCryptPasswordEncoder().encode("test123"));
         this.userRepository.save(user);
-        System.out.println(this.userRepository.findByUsername("user"));
     }
 }

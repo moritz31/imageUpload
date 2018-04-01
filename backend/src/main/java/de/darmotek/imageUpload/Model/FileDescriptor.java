@@ -11,7 +11,6 @@ import java.util.List;
 public class FileDescriptor {
 
     @Id
-    public String id;
     public String path;
     public List<String> tags;
 
@@ -33,7 +32,6 @@ public class FileDescriptor {
     @Override
     public String toString() {
         return "FileDescriptor{" +
-                "id=" + this.id +
                 ", path=" + this.path +
                 ", tags=" + this.tags +
                 '}';

@@ -42,8 +42,8 @@
 
         <img [src]="image.src" (click)="open(i)" class="img-thumbnail"/>
         <div class="card-body">
-          <div class="card-text" *ngFor="let tag of image.tags;">
-            <div class="badge badge-primary">{{tag}}</div>
+          <div class="card-text">
+            <label class="badge badge-primary" *ngFor="let tag of image.tags;">{{tag}}</label>
           </div>
         </div>
       </div>

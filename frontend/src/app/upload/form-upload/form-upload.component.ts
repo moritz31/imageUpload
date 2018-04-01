@@ -34,6 +34,7 @@ export class FormUploadComponent implements OnInit {
         if (event.type === HttpEventType.UploadProgress) {
         } else if (event instanceof HttpResponse) {
           console.log('File is completely uploaded!');
+          window.location.reload();
         }
       })
     });
