@@ -12,7 +12,6 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    public String id;
     public String username;
     public String password;
 
