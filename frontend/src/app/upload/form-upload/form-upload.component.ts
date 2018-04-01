@@ -11,7 +11,7 @@ export class FormUploadComponent implements OnInit {
 
   selectedFiles: FileList
   currentFileUpload: File
-  progress: { percentage: number } = { percentage: 0 }
+  tags: String
 
   constructor(private uploadService: UploadFileService) { }
 
@@ -20,19 +20,23 @@ export class FormUploadComponent implements OnInit {
 
   selectFile(event) {
     this.selectedFiles = event.target.files;
+    console.log(event.target);
+  }
+
+  inputTag(event) {
+    this.tags = event.target.value;
   }
 
   upload() {
-    this.progress.percentage = 0;
 
-    this.currentFileUpload = this.selectedFiles.item(0)
-    this.uploadService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
-      }
-    })
+    Array.from(this.selectedFiles).forEach(file => {
+      this.uploadService.pushFileToStorage(file,this.tags).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+        } else if (event instanceof HttpResponse) {
+          console.log('File is completely uploaded!');
+        }
+      })
+    });
 
     this.selectedFiles = undefined
   }

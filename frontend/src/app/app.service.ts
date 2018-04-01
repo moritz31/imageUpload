@@ -7,6 +7,7 @@ export class AppService {
     authenticated = false;
 
     constructor(private http: HttpClient) {
+        console.log("New service");
     }
 
     authenticate(credentials, callback) {
@@ -29,9 +30,22 @@ export class AppService {
 
     }
 
+    checkLogin() {
+        this.http.get("/api/user").subscribe(response => {
+            console.log(response);
+            if (response['name']) {
+                console.log("Authenticated");
+                this.authenticated = true;
+            } else {
+                console.log("Logged Out");
+                this.authenticated = false;
+            }
+        }, error => {this.authenticated = false;} )
+    }
+
     isAuthenticated(): boolean {
         console.log(this.authenticated);
-        return true;
+        return this.authenticated;
     }
 
 }

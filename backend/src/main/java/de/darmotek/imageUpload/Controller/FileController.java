@@ -30,11 +30,14 @@ public class FileController {
 
     @PostMapping(value = "/api/post")
     public ResponseEntity<String> uploadFile(@RequestParam("name") String name,
-                                             @RequestParam("file") MultipartFile file) {
+                                             @RequestParam("file") MultipartFile file,
+                                             @RequestParam("tags") String[] tags) {
+
+        logger.log(Level.INFO, "Received tags: " + tags);
 
         try {
             storageService.store(file);
-            fileDescriptorRepository.save(new FileDescriptor("/api/files/" + file.getOriginalFilename()));
+            fileDescriptorRepository.save(new FileDescriptor("/api/files/" + file.getOriginalFilename(), tags));
             logger.log(Level.INFO,"Sucessfully uploaded " + file.getOriginalFilename());
             return ResponseEntity.status(HttpStatus.OK).body("OK");
         } catch (Exception e) {

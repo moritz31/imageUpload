@@ -17,28 +17,23 @@ export class HomeComponent implements OnInit {
   private _albums: Array<IAlbum> = [];
 
   constructor(private app: AppService, private http: HttpClient,
-   private uploadService: UploadFileService, private _lightbox: Lightbox) {
+   private uploadService: UploadFileService, private _lightbox: Lightbox, private router: Router) {
     this.uploadService.getFiles().subscribe((images: Object) => {
-        console.log(images);
         for(let image of images) {
           const album = {
             src: image.path,
             caption: null,
-            thumb: null
+            thumb: null,
+            tags: image.tags
           };
-          console.log(album);
           this._albums.push(album);
         }
     });
   }
 
-  authenticated() { return this.app.authenticated; }
-
   open(index: number) {
-    console.log("Hallo ", index);
     this._lightbox.open(this._albums, index);
   }
-
 
   ngOnInit() {
 

@@ -7,11 +7,12 @@ export class UploadFileService {
 
 constructor(private http: HttpClient) {}
 
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, tags: String): Observable<HttpEvent<{}>> {
     let formdata: FormData = new FormData();
 
     formdata.append('file', file);
     formdata.append('name',file.name);
+    formdata.append('tags',JSON.stringify(tags.split(" ")));
 
     const req = new HttpRequest('POST', '/api/post', formdata, {
       reportProgress: true,
