@@ -1,18 +1,23 @@
 package de.darmotek.imageUpload.Repository;
 
 import de.darmotek.imageUpload.Model.FileDescriptor;
+import de.darmotek.imageUpload.config.SpringMongoTestConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Import(SpringMongoTestConfig.class)
 public class FileDescriptorRepositoryTest {
 
     @Autowired
@@ -70,11 +75,11 @@ public class FileDescriptorRepositoryTest {
         this.fileDescriptorRepository.save(simpleDescriptor);
         this.fileDescriptorRepository.save(complexDescriptor);
 
-        FileDescriptor[] foundDescriptors = this.fileDescriptorRepository.findByTags("Hello");
-        assertEquals(3, foundDescriptors.length);
+        List<FileDescriptor> foundDescriptors = this.fileDescriptorRepository.findByTags("Hello");
+        assertEquals(3, foundDescriptors.size());
 
         foundDescriptors = this.fileDescriptorRepository.findByTags("World");
-        assertEquals(1, foundDescriptors.length);
+        assertEquals(1, foundDescriptors.size());
 
     }
 

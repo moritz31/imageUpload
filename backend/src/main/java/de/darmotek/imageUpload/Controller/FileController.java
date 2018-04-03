@@ -74,8 +74,10 @@ public class FileController {
     }
 
     @GetMapping("/api/tags/{tagname}")
-    public ResponseEntity<FileDescriptor[]> getFileByTag(@PathVariable String tagname) {
-        FileDescriptor[] fileDescriptors = this.fileDescriptorRepository.findByTags(tagname);
+    public ResponseEntity<List<FileDescriptor>> getFileByTag(@PathVariable String tagname) {
+        System.out.println(this.fileDescriptorRepository.findByTags(tagname));
+        List<FileDescriptor> fileDescriptors = this.fileDescriptorRepository.findByTags(tagname);
+        System.out.println(tagname + " - " + fileDescriptors);
         return ResponseEntity.ok().body(fileDescriptors);
     }
 }

@@ -22,13 +22,15 @@ export class HomeComponent implements OnInit {
     this.uploadService.getFiles().subscribe((images: any) => {
 
         for(let image of images) {
-          const album = {
-            src: image.path,
-            caption: null,
-            thumb: null,
-            tags: JSON.parse(image.tags)
-          };
-          this._albums.push(album);
+          if(image!=null) {
+            const album = {
+              src: image.path,
+              caption: null,
+              thumb: null,
+              tags: JSON.parse(image.tags)
+            };
+            this._albums.push(album);
+          }
         }
     }, error => this.router.navigate(['login']));
   }
