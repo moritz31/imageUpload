@@ -2,7 +2,9 @@ package de.darmotek.imageUpload.Controller;
 
 import de.darmotek.imageUpload.Model.FileDescriptor;
 import de.darmotek.imageUpload.Repository.FileDescriptorRepository;
+import de.darmotek.imageUpload.Repository.UserRepository;
 import de.darmotek.imageUpload.Service.StorageService;
+import de.darmotek.imageUpload.Service.UserServiceImpl;
 import de.darmotek.imageUpload.config.SecurityConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -46,12 +48,18 @@ public class FileControllerTest {
     @MockBean
     private FileDescriptorRepository fileDescriptorRepository;
 
+    @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private UserServiceImpl userService;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
@@ -59,14 +67,15 @@ public class FileControllerTest {
     public void uploadFile() throws Exception {
 
         MockMultipartFile firstFile = new MockMultipartFile("file", "filename.txt", "text/plain", "some xml".getBytes());
-        File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test.txt").getFile()));
+        File file = new File(Objects.requireNonNull(Objects.requireNonNull(getClass().getClassLoader().getResource("test.txt")).getFile()));
 
 
         doNothing().when(this.storageService).store(firstFile);
 
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/post")
                 .file(firstFile)
-                .param("name", "filename.txt"))
+                .param("name", "filename.txt")
+                .param("tags", ""))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -125,5 +134,20 @@ public class FileControllerTest {
         mockMvc.perform(get("/api/files/test.txt"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    public void getFileByTags() throws Exception {
+
+        String tags[] = {"World"};
+        FileDescriptor mockedByTags[] = {new FileDescriptor("Hello", tags), new FileDescriptor("World", tags)};
+
+        when(this.fileDescriptorRepository.findByTags("World")).thenReturn(mockedByTags);
+
+        mockMvc.perform(get("/api/tags/World"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 }

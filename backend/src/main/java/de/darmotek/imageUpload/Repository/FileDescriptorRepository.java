@@ -7,4 +7,6 @@ public interface FileDescriptorRepository extends MongoRepository<FileDescriptor
 
     FileDescriptor findByPath(String path);
 
+    FileDescriptor[] findByTags(String tag);
+
 }

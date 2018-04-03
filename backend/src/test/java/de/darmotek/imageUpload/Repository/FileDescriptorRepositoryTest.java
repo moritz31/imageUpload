@@ -30,7 +30,6 @@ public class FileDescriptorRepositoryTest {
 
         FileDescriptor returnedDescriptor = this.fileDescriptorRepository.findByPath("test.jpg");
 
-        assertEquals(fileDescriptor.id,returnedDescriptor.id);
         assertEquals(fileDescriptor.path,returnedDescriptor.path);
         assertEquals(fileDescriptor.tags,returnedDescriptor.tags);
     }
@@ -54,6 +53,29 @@ public class FileDescriptorRepositoryTest {
         long elementsInDB = fileDescriptorRepository.count();
 
         assertEquals(elementsInDB,1);
+    }
+
+    @Test
+    public void getMultipleFilesByTag() {
+
+        String tagsForStandardDescriptor[] = {"Hello", "Tag"};
+        String tagsForSimpleDescriptor[] = {"Hello"};
+        String tagsForComplexDescriptor[] = {"Hello", "World", "With", "Me"};
+
+        FileDescriptor standardDescriptor = new FileDescriptor("test.jpg", tagsForStandardDescriptor);
+        FileDescriptor simpleDescriptor = new FileDescriptor("abc.jpg", tagsForSimpleDescriptor);
+        FileDescriptor complexDescriptor = new FileDescriptor("test1.jpg", tagsForComplexDescriptor);
+
+        this.fileDescriptorRepository.save(standardDescriptor);
+        this.fileDescriptorRepository.save(simpleDescriptor);
+        this.fileDescriptorRepository.save(complexDescriptor);
+
+        FileDescriptor[] foundDescriptors = this.fileDescriptorRepository.findByTags("Hello");
+        assertEquals(3, foundDescriptors.length);
+
+        foundDescriptors = this.fileDescriptorRepository.findByTags("World");
+        assertEquals(1, foundDescriptors.length);
+
     }
 
 }

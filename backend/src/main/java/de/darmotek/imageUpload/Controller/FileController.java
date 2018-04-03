@@ -72,4 +72,10 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
     }
+
+    @GetMapping("/api/tags/{tagname}")
+    public ResponseEntity<FileDescriptor[]> getFileByTag(@PathVariable String tagname) {
+        FileDescriptor[] fileDescriptors = this.fileDescriptorRepository.findByTags(tagname);
+        return ResponseEntity.ok().body(fileDescriptors);
+    }
 }
