@@ -1,18 +1,21 @@
 package de.darmotek.imageUpload.Repository;
 
 import de.darmotek.imageUpload.Model.User;
+import de.darmotek.imageUpload.config.SpringMongoTestConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Import(SpringMongoTestConfig.class)
 public class UserRepositoryTest {
 
     @Autowired

@@ -143,7 +143,7 @@ public class FileControllerTest {
         String tags[] = {"World"};
         FileDescriptor mockedByTags[] = {new FileDescriptor("Hello", tags), new FileDescriptor("World", tags)};
 
-        when(this.fileDescriptorRepository.findByTags("World")).thenReturn(mockedByTags);
+        when(this.fileDescriptorRepository.findByTags("World")).thenReturn(Arrays.asList(mockedByTags));
 
         mockMvc.perform(get("/api/tags/World"))
                 .andDo(print())
