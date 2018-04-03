@@ -1,10 +1,10 @@
 <p><label class="btn btn-default">
-  <input type="file" (change)="selectFile($event)" multiple/>
+  <input type="file" (change)="selectFile($event)" multiple>
 </label></p>
 
 <p><input type="text" (keyup)="inputTag($event)"></p>
 
 <p>
   <button class="btn btn-success" [disabled]="!selectedFiles"
-          (click)="upload()">Upload
+          (click)="upload()">Hochladen
   </button><p>

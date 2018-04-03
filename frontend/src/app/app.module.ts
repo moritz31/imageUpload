@@ -13,8 +13,6 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { ListUploadComponent } from './upload/list-upload/list-upload.component';
-import { DetailsUploadComponent } from './upload/details-upload/details-upload.component';
 import { FormUploadComponent } from './upload/form-upload/form-upload.component';
 import {UploadFileService} from './upload/upload-file.service';
 import {LightboxModule} from 'angular2-lightbox';
@@ -43,8 +41,6 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ListUploadComponent,
-    DetailsUploadComponent,
     FormUploadComponent
   ],
   imports: [

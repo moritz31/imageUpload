@@ -22,7 +22,7 @@ constructor(private http: HttpClient) {}
     return this.http.request(req);
   }
 
-  getFiles(): Observable<string[]> {
-    return this.http.get<string[]>('/api/get')
+  getFiles(): Observable<any> {
+    return this.http.get<any>('/api/get')
   }
 }

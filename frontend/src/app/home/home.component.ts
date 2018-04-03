@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import { UploadFileService } from '../upload/upload-file.service';
 import { Lightbox, LightboxConfig, LightboxEvent, LIGHTBOX_EVENT, IEvent, IAlbum } from 'angular2-lightbox';
 import { Subscription } from 'rxjs/Subscription';
+import {HttpResponse}from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private app: AppService, private http: HttpClient,
    private uploadService: UploadFileService, private _lightbox: Lightbox, private router: Router) {
-    this.uploadService.getFiles().subscribe((images: Object) => {
-        
+    this.uploadService.getFiles().subscribe((images: any) => {
+
         for(let image of images) {
           const album = {
             src: image.path,
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
           };
           this._albums.push(album);
         }
-    });
+    }, error => this.router.navigate(['login']));
   }
 
   open(index: number) {

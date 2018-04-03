@@ -32,7 +32,7 @@ export class AppService {
 
     checkLogin() {
         this.http.get("/api/user").subscribe(response => {
-            console.log(response);
+console.log(response);
             if (response['name']) {
                 console.log("Authenticated");
                 this.authenticated = true;
@@ -44,7 +44,7 @@ export class AppService {
     }
 
     isAuthenticated(): boolean {
-        console.log(this.authenticated);
+        this.checkLogin();
         return this.authenticated;
     }
 
