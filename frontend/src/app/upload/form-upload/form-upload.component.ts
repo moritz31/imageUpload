@@ -11,7 +11,7 @@ export class FormUploadComponent implements OnInit {
 
   selectedFiles: FileList
   currentFileUpload: File
-  tags: String
+  tags: String = ""
 
   constructor(private uploadService: UploadFileService) { }
 
@@ -40,5 +40,6 @@ export class FormUploadComponent implements OnInit {
     });
 
     this.selectedFiles = undefined
+    this.tags = "";
   }
 }
